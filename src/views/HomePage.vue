@@ -11,8 +11,8 @@
       <!-- <ion-datetime displayFormat="DDDD,D MMMM YYYY" locale="fr-FR" description="true"></ion-datetime> -->
       <!-- <p color="primary-contrast">{{ new Date() }}</p> -->
       <!-- </div> -->
-      <ion-item>
-        <ion-label>{{ mydate }}</ion-label>
+      <ion-item class="ion-text-center">
+        <ion-label color="primary-contrast">{{ mydate }}</ion-label>
       </ion-item>
       <ion-item>
         <ion-label>Ville: </ion-label>
