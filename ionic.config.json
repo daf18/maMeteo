@@ -1,0 +1,7 @@
+{
+  "name": "maMeteo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
