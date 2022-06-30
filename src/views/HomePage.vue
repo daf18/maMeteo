@@ -1,28 +1,39 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Ma météo</ion-title>
       </ion-toolbar>
     </ion-header>
-    
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <ion-content padding class="background" :fullscreen="true">
+      <div class="ion-text-center">
+        <!-- <ion-datetime displayFormat="DDDD,D MMMM YYYY" locale="fr-FR" description="true"></ion-datetime> -->
+        <p color="primary-contrast">{{ new Date() }}</p>
       </div>
+      <ion-item>
+        <ion-label>Ville: </ion-label>
+        <ion-select placeholder="Choisir" v-model="villeChoisie">
+          <ion-select-option value="Montréal">Montréal</ion-select-option>
+          <ion-select-option value="Laval">Laval</ion-select-option>
+          <ion-select-option value="Québec">Québec</ion-select-option>
+          <ion-select-option value="curentPosition">Position actuelle</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label class="title">{{ villeChoisie }}</ion-label>
+      </ion-item>
     </ion-content>
+    <ion-footer>
+      <ion-toolbar color="secondary">
+        <ion-title>Andreea&Yanan</ion-title>
+      </ion-toolbar>
+    </ion-footer>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFooter, IonLabel, IonItem, IonSelect, IonSelectOption } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -32,37 +43,33 @@ export default defineComponent({
     IonHeader,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonFooter,
+    IonLabel,
+    IonItem,
+    IonSelect,
+    IonSelectOption
+  },
+  data() {
+    return {
+      villeChoisie: "",
+    }
   }
 });
 </script>
 
 <style scoped>
-#container {
+.title {
+  font-size: large;
+  font-weight: 900;
   text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+ion-content.background {
+  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100% no-repeat;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+ion-item {
+  --background: transparent !important;
 }
 </style>
