@@ -9,7 +9,7 @@
     <ion-content padding class="background" :fullscreen="true">
       <div class="ion-text-center">
         <!-- <ion-datetime displayFormat="DDDD,D MMMM YYYY" locale="fr-FR" description="true"></ion-datetime> -->
-        <p color="primary-contrast">{{ new Date() }}</p>
+        <p>{{ new Date() }}</p>
       </div>
       <ion-item>
         <ion-label>Ville: </ion-label>
