@@ -7,17 +7,22 @@
     </ion-header>
 
     <ion-content padding class="background" :fullscreen="true">
-      <div class="ion-text-center">
-        <!-- <ion-datetime displayFormat="DDDD,D MMMM YYYY" locale="fr-FR" description="true"></ion-datetime> -->
-        <p color="primary-contrast">{{ new Date() }}</p>
-      </div>
+      <!-- <div class="ion-text-center"> -->
+      <!-- <ion-datetime displayFormat="DDDD,D MMMM YYYY" locale="fr-FR" description="true"></ion-datetime> -->
+      <!-- <p color="primary-contrast">{{ new Date() }}</p> -->
+      <!-- </div> -->
+      <ion-item class="ion-text-center">
+        <ion-label color="primary-contrast">{{ mydate }}</ion-label>
+      </ion-item>
       <ion-item>
         <ion-label>Ville: </ion-label>
         <ion-select placeholder="Choisir" v-model="villeChoisie">
           <ion-select-option value="Montréal">Montréal</ion-select-option>
           <ion-select-option value="Laval">Laval</ion-select-option>
           <ion-select-option value="Québec">Québec</ion-select-option>
-          <ion-select-option value="curentPosition">Position actuelle</ion-select-option>
+          <ion-select-option value="curentPosition"
+            >Position actuelle</ion-select-option
+          >
         </ion-select>
       </ion-item>
       <ion-item>
@@ -26,18 +31,31 @@
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
-        <ion-title>Andreea&Yanan</ion-title>
+        <ion-title>@ Andreea&Yanan</ion-title>
       </ion-toolbar>
     </ion-footer>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFooter, IonLabel, IonItem, IonSelect, IonSelectOption } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonFooter,
+  IonLabel,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
+} from "@ionic/vue";
+import { defineComponent, onMounted } from "vue";
+import moment from "moment";
+// import { useWeather } from "../weather/weatherService";
 
 export default defineComponent({
-  name: 'HomePage',
+  name: "HomePage",
   components: {
     IonContent,
     IonHeader,
@@ -48,13 +66,38 @@ export default defineComponent({
     IonLabel,
     IonItem,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
   },
   data() {
     return {
       villeChoisie: "",
-    }
-  }
+      mydate: "",
+      position: "",
+      temp: "",
+      icon: "",
+      discription: "",
+    };
+  },
+
+  // setup() {
+  //   const { weather, fetchWeather } = useWeather();
+
+  //   onMounted(fetchWeather);
+  //   console.log("--------------------");
+  //   console.log(weather);
+  //   console.log("--------------------");
+  //   return { weather };
+  // },
+
+  methods: {
+    printMydate: function () {
+      return moment(new Date()).format("llll");
+    },
+  },
+  mounted: function () {
+    console.log(new Date());
+    this.mydate = this.printMydate();
+  },
 });
 </script>
 
@@ -66,7 +109,8 @@ export default defineComponent({
 }
 
 ion-content.background {
-  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100% no-repeat;
+  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100%
+    no-repeat;
 }
 
 ion-item {
