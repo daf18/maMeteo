@@ -13,15 +13,16 @@
       <ion-item>
         <ion-label>Ville: </ion-label>
         <ion-select placeholder="Choisir" v-model="chosenCity" @ion-change="loadFetch(chosenCity)">
-          <ion-select-option type="select" value="Montreal">Montréal</ion-select-option>
-          <ion-select-option type="select" value="Laval">Laval</ion-select-option>
-          <ion-select-option type="select" value="Quebec">Québec</ion-select-option>
+          <ion-select-option value="montreal">Montréal</ion-select-option>
+          <ion-select-option value="laval">Laval</ion-select-option>
+          <ion-select-option value="quebec">Québec</ion-select-option>
           <ion-select-option>Position actuelle</ion-select-option>
         </ion-select>
       </ion-item>
-      <p class="title">{{ chosenCity }}</p>
-      <p class="title">{{ temp }} °C</p>
-      <p>{{ description }}</p>
+      <p class="ion-text-center title">{{ name }}</p>
+      <p class="ion-text-center title">{{ temp }} °C</p>
+      <img :src="`assets/${icon}.svg`" class="center">
+      <p class="ion-text-center elt">{{ description }}</p>
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
@@ -30,7 +31,6 @@
     </ion-footer>
   </ion-page>
 </template>
-
 <script lang="ts">
 const APIKEY = "fe47996e7e51e0717e5d3c332f874a37";
 
@@ -66,7 +66,8 @@ export default defineComponent({
   },
   data() {
     return {
-      chosenCity: "Montreal",
+      chosenCity: "montreal",
+      name: "",
       position: "",
       temp: "",
       icon: "",
@@ -83,13 +84,15 @@ export default defineComponent({
         message: 'Attendez SVP...',
       });
       await loading.present();
-      console.log(city);
-      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.toLowerCase()}&appid=${APIKEY}&lang=fr&units=metric`;
+
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&lang=fr&units=metric`;
       fetch(url).then(reponse => reponse.json()).then(data => {
         console.log(data.main.temp + this.chosenCity);
+        this.name = data.name;
         this.temp = data.main.temp;
         this.description = data.weather[0].description;
-        console.log("Descriptiooooonnnn" + this.description);
+        this.icon = data.weather[0].icon;
+
         loading.dismiss();
       });
     },
@@ -109,9 +112,22 @@ export default defineComponent({
 <style scoped>
 .title {
   font-size: large;
-  font-weight: 900;
+  font-weight: 700;
   text-align: center;
   border: 0px;
+}
+
+.elt {
+  text-align: center;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
 }
 
 ion-content.background {
