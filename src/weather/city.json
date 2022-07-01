@@ -1,0 +1,32 @@
+[
+    {
+        "id": 6077243,
+        "name": "Montréal",
+        "state": "",
+        "country": "CA",
+        "coord": {
+            "lon": -73.587807,
+            "lat": 45.508839
+        }
+    },
+    {
+        "id": 6050610,
+        "name": "Laval",
+        "state": "",
+        "country": "CA",
+        "coord": {
+            "lon": -73.692001,
+            "lat": 45.56995
+        }
+    },
+    {
+        "id": 6325494,
+        "name": "Québec",
+        "state": "",
+        "country": "CA",
+        "coord": {
+            "lon": -71.214539,
+            "lat": 46.812279
+        }
+    }
+]
