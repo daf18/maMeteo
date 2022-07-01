@@ -7,10 +7,9 @@
     </ion-header>
 
     <ion-content padding class="background" :fullscreen="true">
-      <div class="ion-text-center">
-        <!-- <ion-datetime displayFormat="DDDD,D MMMM YYYY" locale="fr-FR" description="true"></ion-datetime> -->
-        <p>{{ new Date() }}</p>
-      </div>
+      <ion-item class="ion-text-center">
+        <ion-label color="primary-contrast">{{ mydate }}</ion-label>
+      </ion-item>
       <ion-item>
         <ion-label>Ville: </ion-label>
         <ion-select placeholder="Choisir" v-model="villeChoisie">
@@ -26,18 +25,31 @@
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
-        <ion-title>Andreea&Yanan</ion-title>
+        <ion-title>@ Andreea&Yanan</ion-title>
       </ion-toolbar>
     </ion-footer>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFooter, IonLabel, IonItem, IonSelect, IonSelectOption } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonFooter,
+  IonLabel,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
+} from "@ionic/vue";
+import { defineComponent, onMounted } from "vue";
+import moment from "moment";
+// import { useWeather } from "../weather/weatherService";
 
 export default defineComponent({
-  name: 'HomePage',
+  name: "HomePage",
   components: {
     IonContent,
     IonHeader,
@@ -48,13 +60,38 @@ export default defineComponent({
     IonLabel,
     IonItem,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
   },
   data() {
     return {
       villeChoisie: "",
-    }
-  }
+      mydate: "",
+      position: "",
+      temp: "",
+      icon: "",
+      discription: "",
+    };
+  },
+
+  // setup() {
+  //   const { weather, fetchWeather } = useWeather();
+
+  //   onMounted(fetchWeather);
+  //   console.log("--------------------");
+  //   console.log(weather);
+  //   console.log("--------------------");
+  //   return { weather };
+  // },
+
+  methods: {
+    printMydate: function () {
+      return moment(new Date()).locale("fr").format("LLLL");
+    },
+  },
+  mounted: function () {
+    console.log(new Date());
+    this.mydate = this.printMydate();
+  },
 });
 </script>
 
