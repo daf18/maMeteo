@@ -12,19 +12,16 @@
       </ion-item>
       <ion-item>
         <ion-label>Ville: </ion-label>
-        <ion-select placeholder="Choisir" v-model="villeChoisie">
-          <ion-select-option value="Montréal">Montréal</ion-select-option>
-          <ion-select-option value="Laval">Laval</ion-select-option>
-          <ion-select-option value="Québec">Québec</ion-select-option>
-          <ion-select-option value="curentPosition">Position actuelle</ion-select-option>
+        <ion-select placeholder="Choisir" v-model="chosenCity" @ion-change="loadFetch(chosenCity)">
+          <ion-select-option type="select" value="Montreal">Montréal</ion-select-option>
+          <ion-select-option type="select" value="Laval">Laval</ion-select-option>
+          <ion-select-option type="select" value="Quebec">Québec</ion-select-option>
+          <ion-select-option>Position actuelle</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item>
-        <ion-label class="title">{{ villeChoisie }}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label class="title">{{ temp }}</ion-label>
-      </ion-item>
+      <p class="title">{{ chosenCity }}</p>
+      <p class="title">{{ temp }} °C</p>
+      <p>{{ description }}</p>
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
@@ -35,6 +32,8 @@
 </template>
 
 <script lang="ts">
+const APIKEY = "fe47996e7e51e0717e5d3c332f874a37";
+
 import {
   IonContent,
   IonHeader,
@@ -50,7 +49,6 @@ import {
 import { loadingController } from "@ionic/vue";
 import { defineComponent, } from "vue";
 import moment from "moment";
-// import { useWeather } from "../weather/weatherService";
 
 export default defineComponent({
   name: "HomePage",
@@ -68,41 +66,34 @@ export default defineComponent({
   },
   data() {
     return {
-      villeChoisie: "Montréal",
-      mydate: "",
+      chosenCity: "Montreal",
       position: "",
       temp: "",
       icon: "",
-      discription: "",
+      description: "",
+      mydate: "",
     };
   },
-
-  // setup() {
-  //   const { weather, fetchWeather } = useWeather();
-
-  //   onMounted(fetchWeather);
-  //   console.log("--------------------");
-  //   console.log(weather);
-  //   console.log("--------------------");
-  //   return { weather };
-  // },
   ionViewDidEnter() {
-    this.loadFetch();
+    this.loadFetch(this.chosenCity);
   },
   methods: {
-    loadFetch() {
-      // fetch('https://api.openweathermap.org/data/2.5/weather?q=montreal&appid=fe47996e7e51e0717e5d3c332f874a37&lang=fr&units=metric')
-      //   .then(response => response.json()).then(data => (this.temp = data.main.temp, console.log(data.main.temp)));
-      const loading = loadingController.create({
-        message: 'Attendre SVP...',
+    async loadFetch(city: string) {
+      const loading = await loadingController.create({
+        message: 'Attendez SVP...',
       });
-
-      let url = `https://api.openweathermap.org/data/2.5/weather?q=montreal&appid=fe47996e7e51e0717e5d3c332f874a37&lang=fr&units=metric`;
+      await loading.present();
+      console.log(city);
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.toLowerCase()}&appid=${APIKEY}&lang=fr&units=metric`;
       fetch(url).then(reponse => reponse.json()).then(data => {
-        console.log(data.main.temp);
+        console.log(data.main.temp + this.chosenCity);
         this.temp = data.main.temp;
+        this.description = data.weather[0].description;
+        console.log("Descriptiooooonnnn" + this.description);
+        loading.dismiss();
       });
     },
+
     printMydate: function () {
       return moment(new Date()).locale("fr").format("LLLL");
     },
