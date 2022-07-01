@@ -20,14 +20,17 @@
           <ion-select-option value="Montréal">Montréal</ion-select-option>
           <ion-select-option value="Laval">Laval</ion-select-option>
           <ion-select-option value="Québec">Québec</ion-select-option>
-          <ion-select-option value="curentPosition"
+          <ion-select-option value="Position actuelle"
             >Position actuelle</ion-select-option
           >
         </ion-select>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label class="title">{{ villeChoisie }}</ion-label>
-      </ion-item>
+      </ion-item> -->
+      <div :key="villeChoisie">
+        <current-weather :ville="villeChoisie"></current-weather>
+      </div> 
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
@@ -49,10 +52,11 @@ import {
   IonItem,
   IonSelect,
   IonSelectOption,
+  
 } from "@ionic/vue";
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import moment from "moment";
-// import { useWeather } from "../weather/weatherService";
+import CurrentWeather from "@/weather/current-weather.vue";
 
 export default defineComponent({
   name: "HomePage",
@@ -67,7 +71,8 @@ export default defineComponent({
     IonItem,
     IonSelect,
     IonSelectOption,
-  },
+    CurrentWeather
+},
   data() {
     return {
       villeChoisie: "",
@@ -78,16 +83,6 @@ export default defineComponent({
       discription: "",
     };
   },
-
-  // setup() {
-  //   const { weather, fetchWeather } = useWeather();
-
-  //   onMounted(fetchWeather);
-  //   console.log("--------------------");
-  //   console.log(weather);
-  //   console.log("--------------------");
-  //   return { weather };
-  // },
 
   methods: {
     printMydate: function () {
