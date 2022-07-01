@@ -22,6 +22,9 @@
       <ion-item>
         <ion-label class="title">{{ villeChoisie }}</ion-label>
       </ion-item>
+      <ion-item>
+        <ion-label class="title">{{ temp }}</ion-label>
+      </ion-item>
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
@@ -44,7 +47,8 @@ import {
   IonSelect,
   IonSelectOption,
 } from "@ionic/vue";
-import { defineComponent, onMounted } from "vue";
+import { loadingController } from "@ionic/vue";
+import { defineComponent, } from "vue";
 import moment from "moment";
 // import { useWeather } from "../weather/weatherService";
 
@@ -64,7 +68,7 @@ export default defineComponent({
   },
   data() {
     return {
-      villeChoisie: "",
+      villeChoisie: "Montréal",
       mydate: "",
       position: "",
       temp: "",
@@ -82,8 +86,23 @@ export default defineComponent({
   //   console.log("--------------------");
   //   return { weather };
   // },
-
+  ionViewDidEnter() {
+    this.loadFetch();
+  },
   methods: {
+    loadFetch() {
+      // fetch('https://api.openweathermap.org/data/2.5/weather?q=montreal&appid=fe47996e7e51e0717e5d3c332f874a37&lang=fr&units=metric')
+      //   .then(response => response.json()).then(data => (this.temp = data.main.temp, console.log(data.main.temp)));
+      const loading = loadingController.create({
+        message: 'Attendre SVP...',
+      });
+
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=montreal&appid=fe47996e7e51e0717e5d3c332f874a37&lang=fr&units=metric`;
+      fetch(url).then(reponse => reponse.json()).then(data => {
+        console.log(data.main.temp);
+        this.temp = data.main.temp;
+      });
+    },
     printMydate: function () {
       return moment(new Date()).locale("fr").format("LLLL");
     },
@@ -92,6 +111,7 @@ export default defineComponent({
     console.log(new Date());
     this.mydate = this.printMydate();
   },
+
 });
 </script>
 
@@ -100,6 +120,7 @@ export default defineComponent({
   font-size: large;
   font-weight: 900;
   text-align: center;
+  border: 0px;
 }
 
 ion-content.background {
