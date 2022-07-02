@@ -113,7 +113,7 @@ export default defineComponent({
         url = `${weatherUrl}q=${city}&appid=${APIKEY}&lang=fr&units=metric`;
       } else {
         const { coords } = await Geolocation.getCurrentPosition();
-        url = `${weatherUrl}&appid=${APIKEY}&lat=${coords.latitude}&lon=${coords.longitude}`;
+        url = `${weatherUrl}&appid=${APIKEY}&lat=${coords.latitude}&lon=${coords.longitude}&lang=fr&units=metric`;
       }
 
       fetch(url)
