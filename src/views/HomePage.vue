@@ -12,16 +12,22 @@
       </ion-item>
       <ion-item>
         <ion-label>Ville: </ion-label>
-        <ion-select placeholder="Choisir" v-model="chosenCity" @ion-change="loadFetch(chosenCity)">
+        <ion-select
+          placeholder="Choisir"
+          v-model="chosenCity"
+          @ion-change="loadFetch(chosenCity)"
+        >
           <ion-select-option value="montreal">Montréal</ion-select-option>
           <ion-select-option value="laval">Laval</ion-select-option>
           <ion-select-option value="quebec">Québec</ion-select-option>
-          <ion-select-option value="Position actuelle">Position actuelle</ion-select-option>
+          <ion-select-option value="Position actuelle"
+            >Position actuelle</ion-select-option
+          >
         </ion-select>
       </ion-item>
       <p class="ion-text-center title">{{ name }}</p>
       <p class="ion-text-center title">{{ temp }} °C</p>
-      <img :src="`assets/${icon}.svg`" class="center">
+      <img :src="`assets/${icon}.svg`" class="center" />
       <p class="ion-text-center elt">{{ description }}</p>
       <!-- <ion-select placeholder="Choisir" v-model="villeChoisie">
           <ion-select-option value="Montréal">Montréal</ion-select-option>
@@ -32,9 +38,9 @@
           >
         </ion-select> 
       </ion-item>-->
-      <div :key="chosenCity">
+      <!-- <div :key="chosenCity">
         <current-weather :ville="chosenCity"></current-weather>
-      </div>
+      </div> -->
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
@@ -57,12 +63,12 @@ import {
   IonItem,
   IonSelect,
   IonSelectOption,
-
 } from "@ionic/vue";
 import { loadingController } from "@ionic/vue";
-import { defineComponent, } from "vue";
+import { defineComponent } from "vue";
 import moment from "moment";
-import CurrentWeather from "@/weather/current-weather.vue";
+import { Geolocation } from '@capacitor/geolocation';
+// import CurrentWeather from "@/weather/current-weather.vue";
 
 export default defineComponent({
   name: "HomePage",
@@ -77,7 +83,7 @@ export default defineComponent({
     IonItem,
     IonSelect,
     IonSelectOption,
-    CurrentWeather
+    // CurrentWeather
   },
   data() {
     return {
@@ -96,20 +102,31 @@ export default defineComponent({
   methods: {
     async loadFetch(city: string) {
       const loading = await loadingController.create({
-        message: 'Attendez SVP...',
+        message: "Attendez SVP...",
       });
       await loading.present();
 
-      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&lang=fr&units=metric`;
-      fetch(url).then(reponse => reponse.json()).then(data => {
-        console.log(data.main.temp + this.chosenCity);
-        this.name = data.name;
-        this.temp = data.main.temp;
-        this.description = data.weather[0].description;
-        this.icon = data.weather[0].icon;
+      var url = "";
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?`
 
-        loading.dismiss();
-      });
+      if (city !== "Position actuelle") {
+        url = `${weatherUrl}q=${city}&appid=${APIKEY}&lang=fr&units=metric`;
+      } else {
+        const { coords } = await Geolocation.getCurrentPosition();
+        url = `${weatherUrl}&appid=${APIKEY}&lat=${coords.latitude}&lon=${coords.longitude}&lang=fr&units=metric`;
+      }
+
+      fetch(url)
+        .then((reponse) => reponse.json())
+        .then((data) => {
+          console.log(data.main.temp + this.chosenCity);
+          this.name = data.name;
+          this.temp = data.main.temp;
+          this.description = data.weather[0].description;
+          this.icon = data.weather[0].icon;
+
+          loading.dismiss();
+        });
     },
 
     printMydate: function () {
@@ -120,7 +137,6 @@ export default defineComponent({
     console.log(new Date());
     this.mydate = this.printMydate();
   },
-
 });
 </script>
 
@@ -146,7 +162,8 @@ export default defineComponent({
 }
 
 ion-content.background {
-  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100% no-repeat;
+  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100%
+    no-repeat;
 }
 
 ion-item {

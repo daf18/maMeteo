@@ -36,7 +36,7 @@ export default defineComponent({
       weather,
       fetchWeather,
       formatTemp,
-      fetchWeatherByCityId,
+      //TODO: fetchWeatherByCityId,
       getWeatherImageUrl,
     } = useWeather();
 
