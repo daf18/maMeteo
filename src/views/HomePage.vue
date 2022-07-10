@@ -12,35 +12,19 @@
       </ion-item>
       <ion-item>
         <ion-label>Ville: </ion-label>
-        <ion-select
-          placeholder="Choisir"
-          v-model="chosenCity"
-          @ion-change="loadFetch(chosenCity)"
-        >
+        <ion-select placeholder="Choisir" v-model="chosenCity" @ion-change="loadFetch(chosenCity)">
           <ion-select-option value="montreal">Montréal</ion-select-option>
           <ion-select-option value="laval">Laval</ion-select-option>
           <ion-select-option value="quebec">Québec</ion-select-option>
-          <ion-select-option value="Position actuelle"
-            >Position actuelle</ion-select-option
-          >
+          <ion-select-option value="Position actuelle">Position actuelle</ion-select-option>
         </ion-select>
       </ion-item>
       <p class="ion-text-center title">{{ name }}</p>
       <p class="ion-text-center title">{{ temp }} °C</p>
+      <!-- for obtaining the icon from openweathermap . Icons in assets cover just day weather
+      <img :src="`http://openweathermap.org/img/wn/${icon}@4x.png`" class="center" /> -->
       <img :src="`assets/${icon}.svg`" class="center" />
       <p class="ion-text-center elt">{{ description }}</p>
-      <!-- <ion-select placeholder="Choisir" v-model="villeChoisie">
-          <ion-select-option value="Montréal">Montréal</ion-select-option>
-          <ion-select-option value="Laval">Laval</ion-select-option>
-          <ion-select-option value="Québec">Québec</ion-select-option>
-          <ion-select-option value="Position actuelle"
-            >Position actuelle</ion-select-option
-          >
-        </ion-select> 
-      </ion-item>-->
-      <!-- <div :key="chosenCity">
-        <current-weather :ville="chosenCity"></current-weather>
-      </div> -->
     </ion-content>
     <ion-footer>
       <ion-toolbar color="secondary">
@@ -50,6 +34,7 @@
   </ion-page>
 </template>
 <script lang="ts">
+
 const APIKEY = "fe47996e7e51e0717e5d3c332f874a37";
 
 import {
@@ -64,11 +49,11 @@ import {
   IonSelect,
   IonSelectOption,
 } from "@ionic/vue";
+
 import { loadingController } from "@ionic/vue";
 import { defineComponent } from "vue";
 import moment from "moment";
 import { Geolocation } from '@capacitor/geolocation';
-// import CurrentWeather from "@/weather/current-weather.vue";
 
 export default defineComponent({
   name: "HomePage",
@@ -162,8 +147,7 @@ export default defineComponent({
 }
 
 ion-content.background {
-  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100%
-    no-repeat;
+  --background: url(../../public/assets/background-morning.jpeg) 0 0/100% 100% no-repeat;
 }
 
 ion-item {
