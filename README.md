@@ -1,5 +1,5 @@
 # maMeteo
-Application Mobile en utilisant <b>ionic - Vue</b>.
+Application Mobile réalisée en <b>ionic - Vue</b>.
 <br>
 <p>Permet d’afficher la météo de&nbsp;:</p>
 <ul>
